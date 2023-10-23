@@ -38,10 +38,10 @@ manually. Create a env file with the required secret. Later in the
 [kustomization file](overlays/poc/kustomization.yaml) it will be used to
 create a secret. In this case we use
 [PAT credentials][creating-a-personal-access-token] only with repo scope.
-Create a env file with the credentials. Example:
+Change the directory to [secrets](./secrets/) directory. Create a env file with
+the credentials. Example:
 
 ```shell
-cd overlays/poc
 cat <<'EOF' > bboykov-repos-creds-secrets.env
 username=bboykov
 password=<token>
@@ -50,7 +50,17 @@ type=git
 EOF
 ```
 
-Later this secret will be used in the Argocd CD configuration for access to GitHub.
+Apply the secret in the cluster:
+
+```shell
+kubectl create namespace argocd
+kustomize build ../secrets/. | kubectl apply -f -
+```
+
+Later this secret will be used in the Argocd CD configuration for access to
+GitHub. It cannot be added to the [poc overlay](./overlays/poc/) because the
+self managed application will fail due to missing
+`bboykov-repos-creds-secrets.env` file.
 
 [creating-a-personal-access-token]: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
 
