@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: helm-repo-nginx-dev
+spec:
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 15.3.4
+    helm:
+      valueFiles:
+        - values.yaml
+      parameters:
+        - name: service.type
+          value: ClusterIP
+    chart: nginx
+  destination:
+    namespace: helm-repo-nginx-dev
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

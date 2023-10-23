@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kustomize-guestbook-staging
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/bboykov/guestbook
+    path: deployments/kustomize-guestbook/overlays/staging
+    targetRevision: HEAD
+  destination:
+    namespace: kustomize-guestbook-staging
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

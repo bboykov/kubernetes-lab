@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kustomize-guestbook-dev
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/bboykov/guestbook
+    path: deployments/kustomize-guestbook/overlays/dev
+    targetRevision: HEAD
+  destination:
+    namespace: kustomize-guestbook-dev
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

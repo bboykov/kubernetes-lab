@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kps
+spec:
+  project: default
+  source:
+    repoURL: 'https://prometheus-community.github.io/helm-charts'
+    targetRevision: 51.10.0
+    helm:
+      parameters:
+        - name: fullnameOverride
+          value: kps
+        - name: nameOverride
+          value: kps
+      values: |
+        alertmanager:
+          enabled: true
+
+        grafana:
+          enabled: true
+          adminPassword: prom-operator
+
+        prometheus:
+          enabled: true
+    chart: kube-prometheus-stack
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: kube-prometheus-stack
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

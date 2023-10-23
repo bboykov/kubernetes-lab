@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: helm-git-guestbook-dev
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/bboykov/guestbook
+    path: deployments/helm-guestbook
+    targetRevision: HEAD
+    helm:
+      releaseName: helm-git-guestbook-dev
+      version: v3
+      valueFiles:
+        - values.yaml
+        - values-dev.yaml
+  destination:
+    namespace: helm-git-guestbook-dev
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
