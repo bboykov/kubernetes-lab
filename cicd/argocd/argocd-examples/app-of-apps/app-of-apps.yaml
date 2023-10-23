@@ -6,7 +6,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/bboykov/kubernetes-lab.git'
-    path: cicd/argocd/argocd-examples/app-of-apps/
+    path: cicd/argocd/argocd-examples/
     targetRevision: HEAD
   destination:
     namespace: argocd
