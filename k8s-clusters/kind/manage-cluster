@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+
+cluster_name="local-k8s-lab-kind-cluster"
+reg_name="kind-registry"
+reg_port="5001"
+kind_config_file="./config/kind-cluster.yaml"
+
+kind_create_local_kind_cluster() {
+
+  echo " 🧩 Create registry container unless it already exists"
+  running="$(docker inspect -f '{{.State.Running}}' "${reg_name}" 2>/dev/null || true)"
+  if [ "${running}" != 'true' ]; then
+    docker run \
+      -d --restart=always -p "127.0.0.1:${reg_port}:5000" --name "${reg_name}" \
+      registry:2
+  fi
+
+  kind create cluster \
+    --kubeconfig ~/.kube/config \
+    --config "${kind_config_file}" \
+    --wait 5m \
+    --name "${cluster_name}"
+
+  echo " 🧩 Connect docker kind network with the registry"
+  docker network connect "kind" "${reg_name}"
+
+  echo " 🧩 Install Nginx Ingress"
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
+
+  kubectl wait --namespace ingress-nginx \
+    --for=condition=ready pod \
+    --selector=app.kubernetes.io/component=controller \
+    --timeout=90s
+
+echo " 🧩 Document the local registry in kubernetes configmap"
+# https://github.com/kubernetes/enhancements/tree/master/keps/sig-cluster-lifecycle/generic/1755-communicating-a-local-registry
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: local-registry-hosting
+  namespace: kube-public
+data:
+  localRegistryHosting.v1: |
+    host: "localhost:${reg_port}"
+    help: "https://kind.sigs.k8s.io/docs/user/local-registry/"
+EOF
+
+}
+
+kind_delete_local_kind_cluster() {
+  echo " 🧩 Deleting the KIND cluster"
+  kind delete cluster --name "${cluster_name}"
+  echo " 🧩 Deleting registry: ${reg_name}"
+  docker stop "${reg_name}"
+  docker rm "${reg_name}"
+}
+
+if [ $# -ne 1 ]; then
+  echo "The script takes one argument:"
+  echo "create    - To create a cluster"
+  echo "delelete  - To delete a cluster"
+fi
+
+case "${1}" in
+  create)
+    kind_create_local_kind_cluster
+    ;;
+  delete)
+    kind_delete_local_kind_cluster
+    ;;
+  *)
+    echo "Unknown command:"
+    echo "$@"
+    echo "Abort!"
+    exit 1
+    ;;
+esac
+
