@@ -68,6 +68,9 @@ Change the directory to [kustomize](./) directory.
 
 ```shell
 cd kustomize/
+```
+
+```shell
 kubectl create namespace argocd
 kustomize build overlays/poc/ | kubectl apply -f -
 ```
@@ -102,25 +105,30 @@ kustomize build overlays/poc/ | kubectl delete -f -
 
 ## Application deployment examples
 
+CD in to the [kustomize](../kustomize/) directory.
+
 ### kube-prometheus-stack Helm repositry
 
-```shell
-cd kustomize
-kubectl -n argocd apply -f ../../argocd-examples/helm/kube-prometheus-stack/kps.yaml
+Create
 
+```shell
+kubectl -n argocd apply -f ../../argocd-examples/helm/kube-prometheus-stack/kps.yaml
+```
+
+Delete
+
+```shell
 kubectl -n argocd delete -f ../../argocd-examples/helm/kube-prometheus-stack/kps.yaml
 ```
 
 ### ArgoCD self-management
 
 ```shell
-cd kustomize
 kubectl -n argocd apply -f ../../argocd-examples/argocd/argocd-app.yaml
 ```
 
 ### App of apps pattern
 
 ```shell
-cd kustomize
 kubectl -n argocd apply -f ../../argocd-examples/app-of-apps/app-of-apps.yaml
 ```
