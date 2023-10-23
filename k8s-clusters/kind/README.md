@@ -7,8 +7,8 @@ Scripts:
 
 - `get-kind` - pulls given version of kind.
 - `manage-cluster` - Create or delete kind cluster.
-- `/tmp/local-kind-task1-cluster` - kind cluster configuration file produced
-  from the `manage-cluster` script.
+- [kind-cluster.yaml](./config/kind-cluster.yaml) - kind cluster configuration used by
+  the `manage-cluster` script.
 
 ## Create the cluster
 
