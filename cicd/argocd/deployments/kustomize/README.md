@@ -38,7 +38,7 @@ manually. Create a env file with the required secret. Later in the
 [kustomization file](overlays/poc/kustomization.yaml) it will be used to
 create a secret. In this case we use
 [PAT credentials][creating-a-personal-access-token] only with repo scope.
-Change the directory to [secrets](./secrets/) directory. Create a env file with
+Change the directory to [secrets](../secrets/) directory. Create a env file with
 the credentials. Example:
 
 ```shell
@@ -134,7 +134,7 @@ kubectl -n argocd delete -f ../../argocd-examples/helm/kube-prometheus-stack/kps
 ### ArgoCD self-management
 
 ```shell
-kubectl -n argocd apply -f ../../argocd-examples/argocd/argocd-app.yaml
+kubectl -n argocd apply -f ../../argocd-examples/argocd/kustomize/argocd-app.yaml
 ```
 
 ### App of apps pattern

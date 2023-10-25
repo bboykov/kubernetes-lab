@@ -1,0 +1,21 @@
+# Full list of available values see here: https://github.com/argoproj/argo-helm/blob/main/charts/argo-cd/values.yaml
+
+## Argo Configs
+configs:
+  # Argo CD sensitive data
+  # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
+  secret:
+    # -- Create the argocd-secret
+    createSecret: true
+
+    # -- Bcrypt hashed admin password
+    ## Argo expects the password in the secret to be bcrypt hashed. You can create this hash with:
+    ## password="admin" && export bcrypted_pw="$(echo -n $(htpasswd -bnBC 10 "" ${password} | tr -d ':\n'))" && echo ${bcrypted_pw}
+    argocdServerAdminPassword: "$2y$10$Xw8bsSGppAtympPonkTrqe.3Nu.5uToASJ.gB3s3C1JvN2IBmeQiG"
+
+
+  repositories:
+    argo-helm:
+      name: argo
+      url: https://argoproj.github.io/argo-helm
+      type: helm

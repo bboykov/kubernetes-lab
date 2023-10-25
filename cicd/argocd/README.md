@@ -19,11 +19,24 @@ Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes.
 
 ## Argo CD Research notes
 
+Argo CD is using the Application core concept to manage applications deployment
+and lifecycle. Inside an Argo CD application manifest you define the Git
+repository hosting your application definitions, as well as the corresponding
+Kubernetes cluster to deploy applications. In other words, an Argo CD
+application defines the relationship between a source repository and a
+Kubernetes cluster. It's a very concise and scalable design, where you can
+associate multiple sources (Git repositories) and corresponding Kubernetes
+clusters.
+
+Reads:
+
+- [Implementing GitOps using Argo CD](https://github.com/digitalocean/Kubernetes-Starter-Kit-Developers/blob/main/14-continuous-delivery-using-gitops/argocd.md)
+
 ### Considerations
 
 - Deployment (Installation) methods
-  - Kustomize. It is most convenient ,fast and recommended way for the ArgoCD installation(s).
-  - [Helm Chart]((https://github.com/argoproj/argo-helm/tree/master/charts/argo-cd))
+  - [Kustomize](./deployments/kustomize/). It is most convenient ,fast and recommended way for the ArgoCD installation(s).
+  - [Helm](./deployments/helm). Via [Helm Chart](https://github.com/argoproj/argo-helm/tree/master/charts/argo-cd)
 - High Availability.
   The [Argo CD releases](https://github.com/argoproj/argo-cd/tree/v1.8.3/manifests/ha) have
   specially crafted HA manifests.
@@ -140,3 +153,5 @@ benefit the kubernetes user.
 - [Argo CD documentation](https://argoproj.github.io/argo-cd/)
 - [ArgoCD Example Apps](https://github.com/argoproj/argocd-example-apps)
 - [Argo CD Helm Chart](https://github.com/argoproj/argo-helm/tree/master/charts/argo-cd)
+- [Self Managed Argo CD — App Of Everything](https://medium.com/devopsturkiye/self-managed-argo-cd-app-of-everything-a226eb100cf0)
+  - [Self Managed Argo CD - App of Everything repo](https://github.com/kurtburak/argocd)
