@@ -30,7 +30,6 @@ For security reasions we add repository credentials
 manually. Create a env file with the required secret.
 [PAT credentials][creating-a-personal-access-token] only with repo scope.
 
-
 Change the directory to [secrets](../secrets/)directory. Create a env file with
 the credentials. Example:
 
@@ -73,7 +72,7 @@ kubectl --namespace argocd port-forward svc/argocd-server 9099:80 &
 open http://localhost:9099/ # pw is admin. It is set in the override value file
 ```
 
-### [WIP] Delete Argo CD
+### Delete Argo CD
 
 ```shell
 helm -n argocd uninstall argocd
