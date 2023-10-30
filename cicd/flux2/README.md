@@ -9,6 +9,6 @@ when there is new code to deploy.
 - [Manage your Kubernetes clusters with Flux2](https://medium.com/alterway/manage-your-kubernetes-clusters-with-flux2-82dd1cfe2a6a)
 - [Flux2 with eksctl](https://eksctl.io/usage/gitops-v2/)
 
-## Live example
+## Example environment
 
 - [flux2-kustomize-helm-example](https://github.com/bboykov/flux2-kustomize-helm-example)
