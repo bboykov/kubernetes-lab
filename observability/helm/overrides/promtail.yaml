@@ -1,0 +1,15 @@
+# Default values:
+# https://github.com/grafana/helm-charts/blob/main/charts/promtail/values.yaml
+
+
+# -- Resource requests and limits
+resources: {}
+#  limits:
+#    cpu: 200m
+#    memory: 128Mi
+#  requests:
+#    cpu: 100m
+#    memory: 128Mi
+
+# serviceMonitor:
+#   enabled: true

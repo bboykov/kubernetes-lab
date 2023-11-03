@@ -1,0 +1,40 @@
+# Default values for loki:
+# https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml
+loki:
+  auth_enabled: false
+  commonConfig:
+    replication_factor: 1
+  storage:
+    type: 'filesystem'
+  # storage:
+  #   type: s3
+  #   s3:
+  #     region: eu-west-2
+  #   bucketNames:
+  #     chunks: loki-stack-dev-apps-1
+  #     ruler: loki-stack-dev-apps-1
+  #     admin: loki-stack-dev-apps-1
+singleBinary:
+  replicas: 1
+
+# serviceAccount:
+#   create: false
+#   name: loki-stack
+
+monitoring:
+  serviceMonitor:
+    enabled: false
+
+  lokiCanary:
+    enabled: false
+
+  selfMonitoring:
+    enabled: false
+    grafanaAgent:
+      installOperator: false
+
+test:
+  enabled: false
+
+gateway:
+  enabled: enable
